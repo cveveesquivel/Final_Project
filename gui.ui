@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dashboard</class>
+ <widget class="QMainWindow" name="Dashboard">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>750</width>
+    <height>310</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>720</width>
+    <height>310</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>750</width>
+    <height>310</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="positions_table">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>30</y>
+      <width>401</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <attribute name="horizontalHeaderStretchLastSection">
+     <bool>true</bool>
+    </attribute>
+    <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+     <bool>false</bool>
+    </attribute>
+    <column>
+     <property name="text">
+      <string>Symbol</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Qty</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Price</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLCDNumber" name="PL_lcdNumber">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>30</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+      <underline>true</underline>
+      <stylestrategy>PreferDefault</stylestrategy>
+     </font>
+    </property>
+    <property name="intValue" stdset="0">
+     <number>100</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="portfolio_label">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>10</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Positions</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>211</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="5" column="1">
+      <widget class="QLabel" name="error_label">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QPushButton" name="sell_pushButton">
+       <property name="text">
+        <string>Sell</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="quantity_label">
+       <property name="text">
+        <string>Qty</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="symbol_label">
+       <property name="text">
+        <string>Symbol</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QPushButton" name="buy_pushButton">
+       <property name="text">
+        <string>Buy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="input_quantity"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="input_symbol"/>
+     </item>
+     <item row="10" column="1">
+      <widget class="QPushButton" name="clear_entries_pushButton">
+       <property name="text">
+        <string>Clear</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>750</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
