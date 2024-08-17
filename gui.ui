@@ -37,7 +37,7 @@
      <rect>
       <x>230</x>
       <y>30</y>
-      <width>401</width>
+      <width>511</width>
       <height>231</height>
      </rect>
     </property>
@@ -54,7 +54,7 @@
     </column>
     <column>
      <property name="text">
-      <string>Qty</string>
+      <string>Quantity</string>
      </property>
     </column>
     <column>
@@ -62,27 +62,6 @@
       <string>Price</string>
      </property>
     </column>
-   </widget>
-   <widget class="QLCDNumber" name="PL_lcdNumber">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>30</y>
-      <width>71</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>50</weight>
-      <bold>false</bold>
-      <underline>true</underline>
-      <stylestrategy>PreferDefault</stylestrategy>
-     </font>
-    </property>
-    <property name="intValue" stdset="0">
-     <number>100</number>
-    </property>
    </widget>
    <widget class="QLabel" name="portfolio_label">
     <property name="geometry">
