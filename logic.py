@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import *
 import csv
-import api
+
 from gui import *
 from polygon import RESTClient
 import requests
@@ -25,23 +25,34 @@ class Logic(QMainWindow, Ui_Dashboard):
         self.init_table()
 
     def buy(self):
-        # QMessageBox.critical(self, 'Notice', 'Entering Buy Method')
+        """
+
+        :return: None. This method should perform validation at beginning & if succesfull
+        it should add the update the Table on the GUI with the Symbol, Quantity, & Price info (pulled from API).
+
+        """
         if not self.validate():
             return
         symbol = self.input_symbol.text().strip().upper()
         qty = self.input_quantity.text()
 
-        price = self.get_data(symbol)
+        price = self.get_data()
         QMessageBox.critical(self, "Notice", f'Price is {price}', )
 
         row = self.positions_table.rowCount()
         self.positions_table.insertRow(row)
         self.positions_table.setItem(row, 0, QTableWidgetItem(self.input_symbol.text().strip()))
         self.positions_table.setItem(row, 1, QTableWidgetItem(self.input_quantity.text().strip()))
-        self.positions_table.setItem(row, 2, 'Test')
+        self.positions_table.setItem(row, 2, price)
         self.clear()
 
     def validate(self):
+        """
+        Should validate that there all entries are appropriate upon pressing buy or sell button.
+
+        :return: bool True if entries valid else False if entries not valid.
+
+        """
         # QMessageBox.critical(self, 'Notice', 'Entering Validation Method')
         symbol = self.input_symbol.text().strip()
         qty = self.input_quantity.text()
@@ -69,14 +80,27 @@ class Logic(QMainWindow, Ui_Dashboard):
         self.clear()
 
     def sell(self):
+        """
+        Should sell items from the table.
+        **Function still in pregress
+        :return: None
+        """
         if not self.validate():
             return False
 
     def clear(self):
+        """
+        Just clears the input boxes
+        :return:
+        """
         self.input_symbol.clear()
         self.input_quantity.clear()
 
     def init_table(self):
+        """
+        Initates table with row one being dashes which i had thought would solve my problem.
+        :return: No Return
+        """
         initiate_table = [
             {'Symbol': '--', 'Quantity': '--', 'Price': '--'}
         ]
@@ -89,14 +113,14 @@ class Logic(QMainWindow, Ui_Dashboard):
             self.positions_table.setItem(row, 2, QTableWidgetItem(str(i['Price'])))
             row += 1
 
-    def get_data(self, symbol):
+    def get_data(self):
         """
-
-        :return: dictionary with stock info results
+        Pulls Data from Polygon.io & saves the price to return it by itself as
+        :return: str-- value for key 'c' which in API represents previous day closing price.
         """
         QMessageBox.critical(self, "Notice", f"Entering 'get_data' method. ", )
         api = Logic.API
-        symbol = symbol
+        symbol = self.symbol
         api_url = f"https://api.polygon.io/v3/reference/tickers?ticker={symbol}&market=stocks&active=true&limit=100&apiKey={api}"
 
         data = requests.get(api_url).json()
@@ -104,10 +128,17 @@ class Logic(QMainWindow, Ui_Dashboard):
         info = results[0]
         price = info.get('c')
         # self.write_to_file(info)
-        QMessageBox.critical(self, "Notice", f'Price is {price}', )
+        QMessageBox.critical(self, "Notice", f'Price is {price}')
         return price
 
     def symbol_match(self, symbol):
+        """
+        Simply pulls data from Polygon.io API to see if the Symbol enteres exists. The database doens't have built
+        in function to determine if it exists --- when I call it just gives an empty object/list of sort. So if the
+        returned object is empty that is taken as indication as symbol not existing.
+        :param symbol: str
+        :return:
+        """
         api = Logic.API
         self.symbol = symbol
         self.api_url_ticker = f"https://api.polygon.io/v3/reference/tickers?ticker={self.symbol}&market=stocks&active=true&limit=100&apiKey={api}"
