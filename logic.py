@@ -1,5 +1,4 @@
 from PyQt6.QtWidgets import *
-import csv
 
 from gui import *
 from polygon import RESTClient
@@ -16,12 +15,7 @@ class Logic(QMainWindow, Ui_Dashboard):
         self.buy_pushButton.clicked.connect(lambda: self.buy())
         self.sell_pushButton.clicked.connect(lambda: self.sell())
         self.clear_entries_pushButton.clicked.connect(lambda: self.clear())
-        # api = Polygon.API
         self.client = RESTClient(api_key="EmMATDGzKUU0Lq96vumklRHczv17FHBb")
-        # self.symbol = self.symbol
-        # self.qty = qty
-        # self.api_url = f'https://api.polygon.io/v2/aggs/ticker/{self.symbol}/prev?adjusted=true&apiKey={api}'
-        # Polygon.API = self.api_url
         self.init_table()
 
     def buy(self):
@@ -33,18 +27,13 @@ class Logic(QMainWindow, Ui_Dashboard):
         """
         if not self.validate():
             return
-        symbol = self.input_symbol.text().strip().upper()
-        qty = self.input_quantity.text()
 
         price = self.get_data()
-        QMessageBox.critical(self, "Notice", f'Price is {price}', )
-
         row = self.positions_table.rowCount()
         self.positions_table.insertRow(row)
         self.positions_table.setItem(row, 0, QTableWidgetItem(self.input_symbol.text().strip()))
         self.positions_table.setItem(row, 1, QTableWidgetItem(self.input_quantity.text().strip()))
-        self.positions_table.setItem(row, 2, price)
-        self.clear()
+        self.positions_table.setItem(row, 2, QTableWidgetItem(price))
 
     def validate(self):
         """
@@ -53,7 +42,7 @@ class Logic(QMainWindow, Ui_Dashboard):
         :return: bool True if entries valid else False if entries not valid.
 
         """
-        # QMessageBox.critical(self, 'Notice', 'Entering Validation Method')
+
         symbol = self.input_symbol.text().strip()
         qty = self.input_quantity.text()
 
@@ -61,23 +50,24 @@ class Logic(QMainWindow, Ui_Dashboard):
             QMessageBox.critical(self, 'Error', 'Symbol box is blank. Please enter a symbol')
             if not symbol.isalpha():
                 QMessageBox.critical(self, 'Error', "-- {symbol} -- Is Not a Valid Symbol.")
-                self.symbol.setFocus()
+
+                self.clear()
                 return False
             return False
         if not qty:
             QMessageBox.critical(self, 'Error', "Quantity is blank")
             if not qty.isdigit():
                 QMessageBox.critical(self, 'Error', "Please Enter Valid Numerical Quantity")
-                self.qty.setFocus()
+                self.clear()
                 return False
             return False
         match = self.symbol_match(symbol)
-        # symbol = self.input_symbol
-        # qty = self.input_quantity
+
         if len(symbol) == 0 or match == False:
             QMessageBox.critical(self, 'Error', 'Symbol does not exist')
             return False
-        self.clear()
+
+        return True
 
     def sell(self):
         """
@@ -118,20 +108,17 @@ class Logic(QMainWindow, Ui_Dashboard):
         Pulls Data from Polygon.io & saves the price to return it by itself as
         :return: str-- value for key 'c' which in API represents previous day closing price.
         """
-        QMessageBox.critical(self, "Notice", f"Entering 'get_data' method. ", )
         api = Logic.API
         symbol = self.symbol
-        api_url = f"https://api.polygon.io/v3/reference/tickers?ticker={symbol}&market=stocks&active=true&limit=100&apiKey={api}"
+        api_url = f"https://api.polygon.io/v2/aggs/ticker/{symbol}/prev?adjusted=true&apiKey={api}"
 
         data = requests.get(api_url).json()
         results = data['results']  # At this point the values are in a dictionary.
         info = results[0]
         price = info.get('c')
-        # self.write_to_file(info)
-        QMessageBox.critical(self, "Notice", f'Price is {price}')
-        return price
+        return str(price)
 
-    def symbol_match(self, symbol):
+    def symbol_match(self, symbol: object) -> object:
         """
         Simply pulls data from Polygon.io API to see if the Symbol enteres exists. The database doens't have built
         in function to determine if it exists --- when I call it just gives an empty object/list of sort. So if the
