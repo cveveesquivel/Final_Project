@@ -1,12 +1,12 @@
 from PyQt6.QtWidgets import *
-
+import api
 from gui import *
 from polygon import RESTClient
 import requests
 
 
 class Logic(QMainWindow, Ui_Dashboard):
-    API = "EmMATDGzKUU0Lq96vumklRHczv17FHBb"
+    API = api.Polygon.API
 
     def __init__(self):
         super().__init__()
@@ -15,7 +15,7 @@ class Logic(QMainWindow, Ui_Dashboard):
         self.buy_pushButton.clicked.connect(lambda: self.buy())
         self.sell_pushButton.clicked.connect(lambda: self.sell())
         self.clear_entries_pushButton.clicked.connect(lambda: self.clear())
-        self.client = RESTClient(api_key="EmMATDGzKUU0Lq96vumklRHczv17FHBb")
+        self.client = RESTClient(api_key=Logic.API)
         self.init_table()
 
     def buy(self) -> None:
