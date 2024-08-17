@@ -8,7 +8,7 @@ import requests
 class Logic(QMainWindow, Ui_Dashboard):
     API = "EmMATDGzKUU0Lq96vumklRHczv17FHBb"
 
-    def __init__(self):
+    def __init__(self) -> Object:
         super().__init__()
         self.setupUi(self)
 
@@ -18,7 +18,7 @@ class Logic(QMainWindow, Ui_Dashboard):
         self.client = RESTClient(api_key="EmMATDGzKUU0Lq96vumklRHczv17FHBb")
         self.init_table()
 
-    def buy(self):
+    def buy(self) -> None:
         """
 
         :return: None. This method should perform validation at beginning & if succesfull
@@ -35,7 +35,7 @@ class Logic(QMainWindow, Ui_Dashboard):
         self.positions_table.setItem(row, 1, QTableWidgetItem(self.input_quantity.text().strip()))
         self.positions_table.setItem(row, 2, QTableWidgetItem(price))
 
-    def validate(self):
+    def validate(self) -> bool:
         """
         Should validate that there all entries are appropriate upon pressing buy or sell button.
 
@@ -69,7 +69,7 @@ class Logic(QMainWindow, Ui_Dashboard):
 
         return True
 
-    def sell(self):
+    def sell(self) -> None:
         """
         Should sell items from the table.
         **Function still in pregress
@@ -78,7 +78,7 @@ class Logic(QMainWindow, Ui_Dashboard):
         if not self.validate():
             return False
 
-    def clear(self):
+    def clear(self) -> None:
         """
         Just clears the input boxes
         :return:
@@ -86,7 +86,7 @@ class Logic(QMainWindow, Ui_Dashboard):
         self.input_symbol.clear()
         self.input_quantity.clear()
 
-    def init_table(self):
+    def init_table(self) -> None:
         """
         Initates table with row one being dashes which i had thought would solve my problem.
         :return: No Return
@@ -103,10 +103,11 @@ class Logic(QMainWindow, Ui_Dashboard):
             self.positions_table.setItem(row, 2, QTableWidgetItem(str(i['Price'])))
             row += 1
 
-    def get_data(self):
+    def get_data(self) -> str:
         """
         Pulls Data from Polygon.io & saves the price to return it by itself as
-        :return: str-- value for key 'c' which in API represents previous day closing price.
+        :return: str-- value for key 'c' which in API represents previous day closing price. Actual value is a
+        float but the QTableWidgetItem() functions seems to only accept Strings.
         """
         api = Logic.API
         symbol = self.symbol
@@ -118,13 +119,13 @@ class Logic(QMainWindow, Ui_Dashboard):
         price = info.get('c')
         return str(price)
 
-    def symbol_match(self, symbol: object) -> object:
+    def symbol_match(self, symbol: object) -> bool:
         """
         Simply pulls data from Polygon.io API to see if the Symbol enteres exists. The database doens't have built
         in function to determine if it exists --- when I call it just gives an empty object/list of sort. So if the
         returned object is empty that is taken as indication as symbol not existing.
-        :param symbol: str
-        :return:
+        :param symbol: string entered by user that is then passed directly into this function.
+        :return: True if matches, False if no match.
         """
         api = Logic.API
         self.symbol = symbol
