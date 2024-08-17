@@ -8,7 +8,7 @@ import requests
 class Logic(QMainWindow, Ui_Dashboard):
     API = "EmMATDGzKUU0Lq96vumklRHczv17FHBb"
 
-    def __init__(self) -> Object:
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
 
