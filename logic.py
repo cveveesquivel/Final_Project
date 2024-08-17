@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import *
-import api
+import api # holds the API key
 from gui import *
 from polygon import RESTClient
 import requests
